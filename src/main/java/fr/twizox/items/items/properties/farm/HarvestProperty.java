@@ -1,36 +1,38 @@
 package fr.twizox.items.items.properties.farm;
 
-import fr.twizox.items.SuperItems;
 import fr.twizox.items.items.properties.ItemProperty;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
 
-public class HarvestProperty implements ItemProperty<BlockBreakEvent> {
+public class HarvestProperty implements ItemProperty<PlayerInteractEvent> {
 
-    private final List<Material> crops = List.of(Material.CARROTS, Material.POTATOES, Material.WHEAT, Material.BEETROOTS, Material.NETHER_WART);
+    private static final List<Material> crops = List.of(Material.CARROTS, Material.POTATOES, Material.WHEAT, Material.BEETROOTS, Material.NETHER_WART);
 
     @Override
-    public void handle(BlockBreakEvent event) {
-        Player player = event.getPlayer();
+    public void handle(PlayerInteractEvent event) {
 
-        Block block = event.getBlock();
-        player.sendMessage("HarvestProperty: " + block.getType().toString());
+        if (event.getClickedBlock() == null) return;
+
+        Block block = event.getClickedBlock();
         if(!crops.contains(block.getType())) return;
 
-        replantCrop(block.getLocation(), block.getType());
-    }
+        Ageable ageable = (Ageable) block.getBlockData();
 
-    private void replantCrop(Location location, Material material) {
-        Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(SuperItems.class), () -> {
-            location.getBlock().setType(material);
-        }, 20L);
+        if(ageable.getAge() != ageable.getMaximumAge()) return;
+
+        Location location = block.getLocation();
+
+        Material type = block.getType();
+
+        block.breakNaturally(event.getItem());
+
+        block.setType(type);
+
     }
 
 }

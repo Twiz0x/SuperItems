@@ -50,6 +50,7 @@ public class ExcavatorProperty implements ItemProperty<BlockBreakEvent> {
 
 
         final ItemStack itemStack = player.getInventory().getItemInMainHand();
+
         for (int x = minOffset[0]; x != maxOffset[0] + offset[0]; x += offset[0]) {
             for (int y = minOffset[1]; y != maxOffset[1] + offset[1]; y += offset[1]) {
                 for (int z = minOffset[2]; z != maxOffset[2] + offset[2]; z += offset[2]) {

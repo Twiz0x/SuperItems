@@ -1,43 +1,32 @@
 package fr.twizox.items.items.properties.effect;
 
-import fr.twizox.items.items.ItemManager;
+import fr.twizox.items.items.BehaviorManager;
+import fr.twizox.items.items.properties.ItemProperty;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-public abstract class AbstractEffectProperty {
+public abstract class AbstractEffectProperty<T extends Event> implements ItemProperty<T> {
 
-    private final PotionEffectType type;
-    private final int amplifier, duration;
+    private final PotionEffect potionEffect;
 
-    public AbstractEffectProperty(PotionEffectType type, int amplifier, int duration) {
-        this.type = type;
-        this.amplifier = amplifier;
-        this.duration = duration;
+    public AbstractEffectProperty(PotionEffect potionEffect) {
+        this.potionEffect = potionEffect;
     }
 
-    public PotionEffectType getType() {
-        return type;
-    }
-
-    public int getAmplifier() {
-        return amplifier;
-    }
-
-    public int getDuration() {
-        return duration;
+    public PotionEffect getPotionEffect() {
+        return potionEffect;
     }
 
     protected boolean checkItem(final Player player) {
-        if (!ItemManager.INSTANCE.isSuperItem(player.getItemInHand())) {
-            player.getActivePotionEffects().removeIf(effect -> effect.getAmplifier() == getAmplifier() && effect.getType() == getType());
+        if (!BehaviorManager.INSTANCE.isSuperItem(player.getInventory().getItemInMainHand())) {
+            player.getActivePotionEffects().removeIf(effect -> effect.getType() == potionEffect.getType() && effect.getAmplifier() == potionEffect.getAmplifier());
             return false;
         }
-
         return true;
     }
 
     protected void applyEffect(final Player player) {
-        player.addPotionEffect(new PotionEffect(getType(), getDuration(), getAmplifier()));
+        player.addPotionEffect(potionEffect);
     }
 }

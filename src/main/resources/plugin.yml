@@ -3,3 +3,4 @@ name: SuperItems
 version: 1.0
 author: Twizox
 description: A plugin to add super items to your server
+api-version: 1.19

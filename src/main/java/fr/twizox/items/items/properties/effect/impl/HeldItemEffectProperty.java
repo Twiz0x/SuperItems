@@ -1,15 +1,15 @@
 package fr.twizox.items.items.properties.effect.impl;
 
-import fr.twizox.items.items.properties.ItemProperty;
 import fr.twizox.items.items.properties.effect.AbstractEffectProperty;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class HeldItemEffectProperty extends AbstractEffectProperty implements ItemProperty<PlayerItemHeldEvent> {
+public class HeldItemEffectProperty extends AbstractEffectProperty<PlayerItemHeldEvent> {
 
     public HeldItemEffectProperty(PotionEffectType type, int amplifier) {
-        super(type, 20, amplifier);
+        super(new PotionEffect(type, Integer.MAX_VALUE, amplifier));
     }
 
     @Override
