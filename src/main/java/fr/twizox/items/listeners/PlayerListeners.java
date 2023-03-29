@@ -40,7 +40,7 @@ public class PlayerListeners implements Listener {
         SuperItem superItem = ItemManager.INSTANCE.getItems().get(0);
         SuperItem superItem2 = ItemManager.INSTANCE.getItems().get(1);
         player.getInventory().setItem(0, superItem.getItemStack());
-        player.getInventory().setItem(1, superItem.getItemStack());
+        player.getInventory().setItem(1, superItem2.getItemStack());
     }
 
 }
