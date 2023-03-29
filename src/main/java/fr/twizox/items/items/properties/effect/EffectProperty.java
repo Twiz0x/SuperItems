@@ -26,7 +26,7 @@ public class EffectProperty implements ItemProperty<PlayerItemHeldEvent> {
 
     @Override
     public void handle(PlayerItemHeldEvent event) {
-        ItemManager itemManager = ItemManager.getInstance();
+        ItemManager itemManager = ItemManager.INSTANCE;
         Player player = event.getPlayer();
 
     }
