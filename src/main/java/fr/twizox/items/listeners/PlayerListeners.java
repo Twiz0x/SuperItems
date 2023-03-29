@@ -18,8 +18,8 @@ public class PlayerListeners implements Listener {
 
 
     private void handleEvent(Player player, Event event) {
-        SuperPlayerData data = DataManager.getInstance().getOrCreatePlayerData(player);
-        Optional<SuperItem> superItem = ItemManager.getInstance().getItem(player.getInventory().getItemInMainHand());
+        SuperPlayerData data = DataManager.INSTANCE.getOrCreatePlayerData(player);
+        Optional<SuperItem> superItem = ItemManager.INSTANCE.getItem(player.getInventory().getItemInMainHand());
         superItem.ifPresent(item -> item.getProperties().stream().filter(property -> property.isApplicable(event)).forEach(property -> property.handle(event)));
     }
 
@@ -37,8 +37,8 @@ public class PlayerListeners implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        SuperItem superItem = ItemManager.getInstance().getItems().get(0);
-        SuperItem superItem2 = ItemManager.getInstance().getItems().get(1);
+        SuperItem superItem = ItemManager.INSTANCE.getItems().get(0);
+        SuperItem superItem2 = ItemManager.INSTANCE.getItems().get(1);
         player.getInventory().setItem(0, superItem.getItemStack());
         player.getInventory().setItem(1, superItem.getItemStack());
     }
