@@ -18,7 +18,7 @@ public class PlayerListeners implements Listener {
 
 
     private void handleEvent(Player player, Event event) {
-        SuperPlayerData data = DataManager.getInstance().getOrCreatePlayerData(player);
+        SuperPlayerData data = DataManager.INSTANCE.getOrCreatePlayerData(player);
         Optional<SuperItem> superItem = ItemManager.getInstance().getItem(player.getInventory().getItemInMainHand());
         superItem.ifPresent(item -> item.getProperties().stream().filter(property -> property.isApplicable(event)).forEach(property -> property.handle(event)));
     }

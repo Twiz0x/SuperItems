@@ -7,15 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class DataManager {
-    private final Map<UUID, SuperPlayerData> playerDatas = new HashMap<>();
-    private final static DataManager instance = new DataManager();
-    public static DataManager getInstance() {
-        return instance;
-    }
+public enum DataManager {
 
-    private DataManager() {
-    }
+    INSTANCE;
+
+    private final Map<UUID, SuperPlayerData> playerDatas = new HashMap<>();
 
     public SuperPlayerData getOrCreatePlayerData(UUID uuid) {
         SuperPlayerData superPlayerData = playerDatas.get(uuid);
