@@ -14,17 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ItemManager {
+public enum ItemManager {
+
+    INSTANCE;
 
     private final List<SuperItem> items = List.of(
             new SuperPickaxe(new ItemStack(Material.DIAMOND_PICKAXE)),
             new HarvestHoe(new ItemStack(Material.DIAMOND_HOE))
     );
-    private final static ItemManager instance = new ItemManager();
-
-    public static ItemManager getInstance() {
-        return instance;
-    }
 
     public void registerItem(SuperItem item) {
         items.add(item);
