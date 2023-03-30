@@ -1,6 +1,8 @@
 package fr.twizox.items.items.properties.effect.impl;
 
+import fr.twizox.items.items.properties.ItemProperty;
 import fr.twizox.items.items.properties.effect.AbstractEffectProperty;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -25,5 +27,10 @@ public class ClickEffectProperty extends AbstractEffectProperty<PlayerInteractEv
         applyEffect(player);
 
         // TODO: Cooldown or item remove
+    }
+
+    @Override
+    public ItemProperty<PlayerInteractEvent> deserialize(ConfigurationSection section) {
+        return new ClickEffectProperty(getPotionEffect(section));
     }
 }

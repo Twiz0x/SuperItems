@@ -1,10 +1,10 @@
 package fr.twizox.items.items.properties.farm;
 
 import fr.twizox.items.items.properties.ItemProperty;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
@@ -16,23 +16,20 @@ public class HarvestProperty implements ItemProperty<PlayerInteractEvent> {
     @Override
     public void handle(PlayerInteractEvent event) {
 
-        if (event.getClickedBlock() == null) return;
-
         Block block = event.getClickedBlock();
-        if(!crops.contains(block.getType())) return;
+        if(block == null || !crops.contains(block.getType())) return;
 
         Ageable ageable = (Ageable) block.getBlockData();
-
         if(ageable.getAge() != ageable.getMaximumAge()) return;
-
-        Location location = block.getLocation();
 
         Material type = block.getType();
 
         block.breakNaturally(event.getItem());
-
         block.setType(type);
-
     }
 
+    @Override
+    public ItemProperty<PlayerInteractEvent> deserialize(ConfigurationSection section) {
+        throw new UnsupportedOperationException("Already implemented");
+    }
 }

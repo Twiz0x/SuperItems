@@ -3,6 +3,7 @@ package fr.twizox.items.items.properties.farm;
 import fr.twizox.items.items.properties.ItemProperty;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -62,4 +63,8 @@ public class PlantingProperty implements ItemProperty<PlayerInteractEvent> {
         };
     }
 
+    @Override
+    public ItemProperty<PlayerInteractEvent> deserialize(ConfigurationSection configurationSection)  {
+        return new PlantingProperty(configurationSection.getInt("radius", 1));
+    }
 }

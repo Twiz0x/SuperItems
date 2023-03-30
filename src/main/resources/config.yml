@@ -1,26 +1,19 @@
 
 
-bundle:
-  pvp:
-    - excavator
-    - minage: 3x3
 
-pioche_diams:
-  comportements:
-    - [escavator]
-  type: DIAMOND_PICKAXE
-  name: "&bPioche en diamant"
+behaviors:
+  pioche:
+    - excavator1
+    - effetmain
 
 
 
-comportement:
-  escavator:
-    type: ESCAVATOR
-    radius: 2
-  effetSamere:
-    type: HELD_ITEM_EFFECT
+properties:
+  excavator1:
+    type: ExcavatorProperty
+    radius: 1
+    depth: 1
+  effetmain:
+    type: HarvestProperty
     effect: SPEED
     amplifier: 2
-
-proposer des bundles
-ou creation de bundle

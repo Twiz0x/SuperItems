@@ -42,8 +42,8 @@ public enum BehaviorManager {
         return Optional.empty();
     }
 
-    public Optional<ItemBehavior> getBehavior(String id) {
-        return Optional.ofNullable(behaviors.get(id));
+    public Optional<ItemBehavior> getBehavior(String behaviorId) {
+        return Optional.ofNullable(behaviors.get(behaviorId));
     }
 
     public boolean isSuperItem(ItemStack itemStack) {

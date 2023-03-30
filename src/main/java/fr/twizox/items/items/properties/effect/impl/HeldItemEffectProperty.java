@@ -1,6 +1,8 @@
 package fr.twizox.items.items.properties.effect.impl;
 
+import fr.twizox.items.items.properties.ItemProperty;
 import fr.twizox.items.items.properties.effect.AbstractEffectProperty;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.potion.PotionEffect;
@@ -10,6 +12,11 @@ public class HeldItemEffectProperty extends AbstractEffectProperty<PlayerItemHel
 
     public HeldItemEffectProperty(PotionEffectType type, int amplifier) {
         super(new PotionEffect(type, Integer.MAX_VALUE, amplifier));
+    }
+
+    public HeldItemEffectProperty(PotionEffect potionEffect) {
+        super(potionEffect);
+        if (potionEffect.getDuration() != Integer.MAX_VALUE) throw new IllegalArgumentException("Duration in hand must be Integer.MAX_VALUE");
     }
 
     @Override
@@ -23,7 +30,13 @@ public class HeldItemEffectProperty extends AbstractEffectProperty<PlayerItemHel
     }
 
     @Override
-    public boolean handleItemInInventory() {
+    public boolean handleWhenItemHoldOnly() {
         return true;
     }
+
+    @Override
+    public ItemProperty<PlayerItemHeldEvent> deserialize(ConfigurationSection section) {
+        return new HeldItemEffectProperty(getPotionEffect(section));
+    }
+
 }

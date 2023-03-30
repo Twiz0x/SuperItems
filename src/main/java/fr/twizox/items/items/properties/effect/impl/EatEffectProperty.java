@@ -1,6 +1,8 @@
 package fr.twizox.items.items.properties.effect.impl;
 
+import fr.twizox.items.items.properties.ItemProperty;
 import fr.twizox.items.items.properties.effect.AbstractEffectProperty;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.potion.PotionEffect;
@@ -20,5 +22,10 @@ public class EatEffectProperty extends AbstractEffectProperty<PlayerItemConsumeE
         final Player player = event.getPlayer();
 
         applyEffect(player);
+    }
+
+    @Override
+    public ItemProperty<PlayerItemConsumeEvent> deserialize(ConfigurationSection section) {
+        return new EatEffectProperty(getPotionEffect(section));
     }
 }

@@ -4,6 +4,7 @@ import fr.twizox.items.items.properties.ItemProperty;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -13,8 +14,7 @@ import java.util.List;
 
 public class ExcavatorProperty implements ItemProperty<BlockBreakEvent> {
 
-    private final int radius;
-    private final int depth;
+    private final int radius, depth;
     private final List<Material> materials;
 
     public ExcavatorProperty(int radius, int depth, List<Material> materials) {
@@ -23,9 +23,14 @@ public class ExcavatorProperty implements ItemProperty<BlockBreakEvent> {
         this.materials = materials;
     }
 
-    public ExcavatorProperty(List<Material> materials) {
-        this(1, 0, materials);
+    @Override
+    public ItemProperty<BlockBreakEvent> deserialize(ConfigurationSection section) {
+        int radius = section.getInt("radius", 1);
+        int depth = section.getInt("depth", 0);
+        List<Material> materials = section.getStringList("materials").stream().map(Material::valueOf).toList();
+        return new ExcavatorProperty(radius, depth, materials);
     }
+
 
     @Override
     public void handle(BlockBreakEvent event) {
