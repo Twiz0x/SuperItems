@@ -3,7 +3,6 @@ package fr.twizox.items.items.behaviors;
 import fr.twizox.items.SuperItems;
 import fr.twizox.items.items.properties.ItemProperty;
 import org.bukkit.NamespacedKey;
-import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -12,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class ItemBehavior {
 
@@ -43,10 +41,6 @@ public class ItemBehavior {
 
     public void addProperty(ItemProperty itemProperty) {
         itemProperties.add(itemProperty);
-    }
-
-    public Stream<ItemProperty> getApplicableProperties(Event event) {
-        return itemProperties.stream().filter(itemProperty -> itemProperty.isApplicable(event));
     }
 
     public void apply(ItemStack item) {

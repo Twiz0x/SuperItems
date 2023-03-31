@@ -51,12 +51,11 @@ public class ExcavatorProperty implements ItemProperty<BlockBreakEvent> {
 
     @Override
     public void handle(BlockBreakEvent event) {
-        Player player = event.getPlayer();
-
         Block block = event.getBlock();
 
         if (!materials.contains(block.getType()) || block.hasMetadata(BLOCK_METADATA)) return;
 
+        Player player = event.getPlayer();
         RayTraceResult rayTraceResult = player.rayTraceBlocks(5);
         if (rayTraceResult == null) return;
 

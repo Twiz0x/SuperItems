@@ -30,8 +30,8 @@ public class HeldItemEffectProperty extends AbstractEffectProperty<PlayerItemHel
     }
 
     @Override
-    public boolean handleWhenItemHoldOnly() {
-        return true;
+    public boolean handleOnlyWhenItemHold() {
+        return false;
     }
 
     @Override
