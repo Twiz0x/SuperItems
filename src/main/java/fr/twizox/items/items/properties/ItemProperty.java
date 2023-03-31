@@ -7,9 +7,9 @@ import org.bukkit.event.Event;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public interface ItemProperty<T extends Event> extends Deserializable<ItemProperty<T>, ConfigurationSection> {
+public interface ItemProperty<E extends Event> extends Deserializable<ItemProperty<E>, ConfigurationSection> {
 
-    void handle(T event);
+    void handle(E event);
 
     default boolean handleWhenItemHoldOnly() {
         return false;
@@ -21,6 +21,5 @@ public interface ItemProperty<T extends Event> extends Deserializable<ItemProper
         Type[] actualTypeArguments = p.getActualTypeArguments();
         return ((Class) actualTypeArguments[0]).isInstance(event);
     }
-
 
 }

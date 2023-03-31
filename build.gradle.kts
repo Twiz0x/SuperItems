@@ -18,6 +18,10 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
 }
 
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }

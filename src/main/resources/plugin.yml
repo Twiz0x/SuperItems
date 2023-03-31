@@ -1,6 +1,9 @@
 main: fr.twizox.items.SuperItems
 name: SuperItems
 version: 1.0
-author: Twizox
+author: Twiz0x
 description: A plugin to add super items to your server
 api-version: 1.19
+commands:
+  item:
+    description: Give item

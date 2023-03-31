@@ -1,4 +1,4 @@
-package fr.twizox.items.items;
+package fr.twizox.items.items.behaviors;
 
 import fr.twizox.items.SuperItems;
 import fr.twizox.items.items.properties.ItemProperty;
@@ -18,15 +18,19 @@ public class ItemBehavior {
 
 
     private final String behaviorId;
-    private final List<ItemProperty> itemProperties = new ArrayList<>();
+    private final List<ItemProperty> itemProperties;
 
     public ItemBehavior(String behaviorId) {
-        this(behaviorId, new ItemProperty[0]);
+        this(behaviorId, new ArrayList<>());
     }
 
     public ItemBehavior(String behaviorId, ItemProperty<?>... itemProperties) {
+        this(behaviorId, Arrays.asList(itemProperties));
+    }
+
+    public ItemBehavior(String behaviorId, List<ItemProperty> itemProperties) {
         this.behaviorId = behaviorId;
-        this.itemProperties.addAll(Arrays.asList(itemProperties));
+        this.itemProperties = itemProperties;
     }
 
     public String getBehaviorId() {
@@ -48,6 +52,7 @@ public class ItemBehavior {
     public void apply(ItemStack item) {
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta == null) return;
+
         itemMeta.getPersistentDataContainer().set(
                 NamespacedKey.fromString("item_behavior", JavaPlugin.getPlugin(SuperItems.class)),
                 PersistentDataType.STRING,
@@ -55,4 +60,11 @@ public class ItemBehavior {
         item.setItemMeta(itemMeta);
     }
 
+    @Override
+    public String toString() {
+        return "ItemBehavior{" +
+                "behaviorId='" + behaviorId + '\'' +
+                ", itemProperties=" + itemProperties +
+                '}';
+    }
 }

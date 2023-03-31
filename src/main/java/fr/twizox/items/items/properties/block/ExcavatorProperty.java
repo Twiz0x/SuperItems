@@ -1,6 +1,8 @@
 package fr.twizox.items.items.properties.block;
 
+import fr.twizox.items.SuperItems;
 import fr.twizox.items.items.properties.ItemProperty;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -8,12 +10,15 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.RayTraceResult;
 
 import java.util.List;
 
 public class ExcavatorProperty implements ItemProperty<BlockBreakEvent> {
 
+    private static final String BLOCK_METADATA = "excavate-skip";
     private final int radius, depth;
     private final List<Material> materials;
 
@@ -21,6 +26,18 @@ public class ExcavatorProperty implements ItemProperty<BlockBreakEvent> {
         this.radius = radius;
         this.depth = depth;
         this.materials = materials;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public List<Material> getMaterials() {
+        return materials;
     }
 
     @Override
@@ -35,11 +52,14 @@ public class ExcavatorProperty implements ItemProperty<BlockBreakEvent> {
     @Override
     public void handle(BlockBreakEvent event) {
         Player player = event.getPlayer();
+
         Block block = event.getBlock();
-        if (!materials.contains(block.getType())) return;
+
+        if (!materials.contains(block.getType()) || block.hasMetadata(BLOCK_METADATA)) return;
 
         RayTraceResult rayTraceResult = player.rayTraceBlocks(5);
         if (rayTraceResult == null) return;
+
         BlockFace face = rayTraceResult.getHitBlockFace();
         if (face == null) return;
 
@@ -60,13 +80,22 @@ public class ExcavatorProperty implements ItemProperty<BlockBreakEvent> {
             for (int y = minOffset[1]; y != maxOffset[1] + offset[1]; y += offset[1]) {
                 for (int z = minOffset[2]; z != maxOffset[2] + offset[2]; z += offset[2]) {
                     Block relativeBlock = block.getRelative(x, y, z);
-                    if (materials.contains(relativeBlock.getType())) {
-                        relativeBlock.breakNaturally(itemStack);
+                    if (materials.contains(relativeBlock.getType()) && !relativeBlock.equals(block)) {
+                        breakBlock(relativeBlock, itemStack, player);
                     }
                 }
             }
         }
 
+    }
+
+    private static void breakBlock(Block block, ItemStack itemStack, Player player) {
+        block.setMetadata(BLOCK_METADATA, new FixedMetadataValue(JavaPlugin.getPlugin(SuperItems.class), true));
+        BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, player);
+        Bukkit.getPluginManager().callEvent(blockBreakEvent);
+
+        if (!blockBreakEvent.isCancelled()) block.breakNaturally(itemStack);
+        else block.removeMetadata(BLOCK_METADATA, JavaPlugin.getPlugin(SuperItems.class));
     }
 
     private static int getDepthAxis(BlockFace face) {

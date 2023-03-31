@@ -4,16 +4,24 @@
 behaviors:
   pioche:
     - excavator1
-    - effetmain
+  une_houe_de_max:
+    - default_harvest
+    - excava_dirt
 
 
 
 properties:
   excavator1:
-    type: ExcavatorProperty
+    type: default_excavator
     radius: 1
-    depth: 1
-  effetmain:
-    type: HarvestProperty
-    effect: SPEED
-    amplifier: 2
+    depth: 0
+    materials:
+      - STONE
+      - DIRT
+  excava_dirt:
+    type: default_excavator
+    radius: 1
+    depth: 0
+    materials:
+      - DIRT
+      - GRASS_BLOCK

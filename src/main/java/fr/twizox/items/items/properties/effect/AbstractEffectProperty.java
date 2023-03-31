@@ -1,6 +1,6 @@
 package fr.twizox.items.items.properties.effect;
 
-import fr.twizox.items.items.BehaviorManager;
+import fr.twizox.items.items.behaviors.BehaviorManager;
 import fr.twizox.items.items.properties.ItemProperty;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;

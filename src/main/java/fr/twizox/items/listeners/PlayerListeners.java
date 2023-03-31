@@ -1,7 +1,7 @@
 package fr.twizox.items.listeners;
 
-import fr.twizox.items.items.BehaviorManager;
-import fr.twizox.items.items.ItemBehavior;
+import fr.twizox.items.items.behaviors.BehaviorManager;
+import fr.twizox.items.items.behaviors.ItemBehavior;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
