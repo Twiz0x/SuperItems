@@ -3,6 +3,7 @@ package fr.twizox.superitem.items.properties.effect;
 import fr.twizox.superitem.items.behaviors.BehaviorManager;
 import fr.twizox.superitem.items.behaviors.ItemBehavior;
 import fr.twizox.superitem.items.properties.ItemProperty;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -25,7 +26,10 @@ public abstract class AbstractEffectProperty<T extends Event> implements ItemPro
     }
 
     protected boolean checkItem(final Player player, final ItemStack itemStack) {
-        Optional<ItemBehavior> behavior = BehaviorManager.INSTANCE.getBehavior(itemStack);
+        BehaviorManager behaviorManager = Bukkit.getServicesManager().load(BehaviorManager.class);
+        if (behaviorManager == null) throw new IllegalStateException("BehaviorManager not found");
+
+        Optional<ItemBehavior> behavior = behaviorManager.getBehavior(itemStack);
         return behavior.isPresent() && behavior.get().getProperties().stream().anyMatch(this::equals);
     }
 

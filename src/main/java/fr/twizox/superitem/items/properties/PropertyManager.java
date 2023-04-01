@@ -1,5 +1,6 @@
 package fr.twizox.superitem.items.properties;
 
+import com.google.inject.Singleton;
 import fr.twizox.superitem.items.properties.block.ExcavatorProperty;
 import fr.twizox.superitem.items.properties.effect.impl.ClickEffectProperty;
 import fr.twizox.superitem.items.properties.effect.impl.HeldItemEffectProperty;
@@ -13,9 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public enum PropertyManager {
-
-    INSTANCE;
+@Singleton
+public class PropertyManager {
 
     private final Map<String, ItemProperty<?>> properties = new HashMap<>(Map.of(
             "harvest", new HarvestProperty(),
@@ -23,26 +23,6 @@ public enum PropertyManager {
             "click_effect", new ClickEffectProperty(new PotionEffect(PotionEffectType.SPEED, 200, 1)),
             "held_effect", new HeldItemEffectProperty(new PotionEffect(PotionEffectType.SPEED, 0, 1))
     ));
-
-    public void register(String id, ItemProperty<?> property) {
-        if (isExist(id)) throw new IllegalArgumentException("Property '" + id + "' already exist!");
-        properties.put(id, property);
-    }
-
-    public void register(ConfigurationSection propertySection) {
-        String propertyId = propertySection.getName();
-        String basePropertyId = propertySection.getString("type");
-        if (basePropertyId == null) return;
-
-        ItemProperty<?> baseProperty = PropertyManager.INSTANCE.getProperty(basePropertyId);
-        if (baseProperty == null) return;
-
-        this.register(propertyId, baseProperty.deserialize(propertySection));
-    }
-
-    public void registerProperties(ConfigurationSection properties) {
-        properties.getKeys(false).forEach(propertyId -> register(properties.getConfigurationSection(propertyId)));
-    }
 
     public List<String> getPropertiesIds() {
         return List.copyOf(properties.keySet());
@@ -52,8 +32,37 @@ public enum PropertyManager {
         return properties.get(id);
     }
 
-    public boolean isExist(String id) {
+    public boolean hasProperty(String id) {
         return properties.containsKey(id);
+    }
+
+    public void register(String id, ItemProperty<?> property) {
+        if (hasProperty(id)) throw new IllegalArgumentException("Property '" + id + "' already exists!");
+        properties.put(id, property);
+    }
+
+    public void registerPropertySection(ConfigurationSection propertySection) {
+        if (propertySection == null)
+            throw new IllegalArgumentException("Property section is null!");
+
+        String propertyId = propertySection.getName();
+        String basePropertyId = propertySection.getString("type");
+        if (basePropertyId == null)
+            throw new IllegalArgumentException("Base property type of section '" + propertyId + "' not found!");
+
+        ItemProperty<?> baseProperty = getProperty(basePropertyId);
+        if (baseProperty == null)
+            throw new IllegalArgumentException("Base property '" + basePropertyId + "' not found!");
+
+        this.register(propertyId, baseProperty.deserialize(propertySection));
+    }
+
+    public void registerProperties(ConfigurationSection properties) {
+        if (properties == null)
+            throw new IllegalArgumentException("Properties section is null!");
+        properties.getKeys(false).stream()
+                .map(properties::getConfigurationSection)
+                .forEach(this::registerPropertySection);
     }
 
 }

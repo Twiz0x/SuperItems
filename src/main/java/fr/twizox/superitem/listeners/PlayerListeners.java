@@ -1,5 +1,6 @@
 package fr.twizox.superitem.listeners;
 
+import com.google.inject.Inject;
 import fr.twizox.superitem.items.behaviors.BehaviorManager;
 import fr.twizox.superitem.items.behaviors.ItemBehavior;
 import org.bukkit.Bukkit;
@@ -21,11 +22,17 @@ import java.util.stream.Stream;
 
 public class PlayerListeners implements Listener {
 
+    private final BehaviorManager behaviorManager;
 
-    private static void handleItem(Player player, Event event, ItemStack item) {
+    @Inject
+    public PlayerListeners(BehaviorManager behaviorManager) {
+        this.behaviorManager = behaviorManager;
+    }
+
+    private void handleItem(Player player, Event event, ItemStack item) {
         if (item == null) return;
         boolean itemHold = item.isSimilar(player.getInventory().getItemInMainHand());
-        Optional<ItemBehavior> behavior = BehaviorManager.INSTANCE.getBehavior(item);
+        Optional<ItemBehavior> behavior = behaviorManager.getBehavior(item);
 
         behavior.ifPresent(itemBehavior -> itemBehavior
                 .getProperties()

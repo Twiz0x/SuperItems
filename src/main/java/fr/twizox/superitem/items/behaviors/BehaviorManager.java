@@ -1,5 +1,7 @@
 package fr.twizox.superitem.items.behaviors;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import fr.twizox.superitem.SuperItems;
 import fr.twizox.superitem.items.properties.PropertyManager;
 import org.bukkit.NamespacedKey;
@@ -11,11 +13,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-public enum BehaviorManager {
+@Singleton
+public class BehaviorManager {
 
-    INSTANCE;
+    private final PropertyManager propertyManager;
+    private final Map<String, ItemBehavior> behaviors;
 
-    private final Map<String, ItemBehavior> behaviors = new HashMap<>();
+    @Inject
+    public BehaviorManager(PropertyManager propertyManager) {
+        this.propertyManager = propertyManager;
+        this.behaviors = new HashMap<>();
+    }
 
     public void addBehavior(ItemBehavior itemBehavior) {
         behaviors.put(itemBehavior.getBehaviorId(), itemBehavior);
@@ -24,16 +32,18 @@ public enum BehaviorManager {
     public void addBehavior(String behaviorId, List<String> properties) {
         ItemBehavior itemBehavior = new ItemBehavior(behaviorId);
         properties.stream()
-                .filter(PropertyManager.INSTANCE::isExist)
-                .map(PropertyManager.INSTANCE::getProperty)
+                .filter(propertyManager::hasProperty)
+                .map(propertyManager::getProperty)
                 .forEach(itemBehavior::addProperty);
         addBehavior(itemBehavior);
     }
 
     public void addBehaviors(ConfigurationSection behaviors) {
-        behaviors.getKeys(false).forEach(behaviorId -> addBehavior(behaviorId, behaviors.getStringList(behaviorId)));
+        if (behaviors == null)
+            throw new IllegalArgumentException("Behaviors section not found!");
+        behaviors.getKeys(false)
+                .forEach(behaviorId -> addBehavior(behaviorId, behaviors.getStringList(behaviorId)));
     }
-
 
     public void removeBehavior(String id) {
         behaviors.remove(id);

@@ -1,5 +1,7 @@
 package fr.twizox.superitem.commands;
 
+import com.google.inject.Inject;
+import fr.twizox.superitem.items.behaviors.BehaviorManager;
 import fr.twizox.superitem.items.behaviors.ItemBehavior;
 import fr.twizox.superitem.items.properties.PropertyManager;
 import org.bukkit.command.Command;
@@ -9,14 +11,22 @@ import org.bukkit.entity.Player;
 
 public class ItemCommand implements CommandExecutor {
 
+    private final PropertyManager propertyManager;
+    private final BehaviorManager behaviorManager;
+
+    @Inject
+    public ItemCommand(PropertyManager propertyManager, BehaviorManager behaviorManager) {
+        this.propertyManager = propertyManager;
+        this.behaviorManager = behaviorManager;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("§cOnly players can use this command");
             return true;
         }
-        Player player = (Player) sender;
 
         if (args.length == 0) {
             sender.sendMessage("§cUsage: /item <apply|properties|behaviors|reload>");
@@ -26,11 +36,11 @@ public class ItemCommand implements CommandExecutor {
         switch (args[0].toLowerCase()) {
             case "properties" -> {
                 sender.sendMessage("§aList of properties:");
-                PropertyManager.INSTANCE.getPropertiesIds().forEach(property -> sender.sendMessage("§e- " + property));
+                propertyManager.getPropertiesIds().forEach(property -> sender.sendMessage("§e- " + property));
             }
             case "behaviors" -> {
                 sender.sendMessage("§aList of behaviors:");
-                fr.twizox.superitem.items.behaviors.BehaviorManager.INSTANCE.getBehaviors().forEach((behavior, itemBehavior) -> sender.sendMessage("§e- " + itemBehavior));
+                behaviorManager.getBehaviors().forEach((behavior, itemBehavior) -> sender.sendMessage("§e- " + itemBehavior));
             }
             case "reload" -> {
                 sender.sendMessage("§aNot implemented yet");
@@ -40,13 +50,13 @@ public class ItemCommand implements CommandExecutor {
                     sender.sendMessage("§cUsage: /item apply <property>");
                     return true;
                 }
-                ItemBehavior itemBehavior = fr.twizox.superitem.items.behaviors.BehaviorManager.INSTANCE.getBehavior(args[1]).orElse(null);
+                ItemBehavior itemBehavior = behaviorManager.getBehavior(args[1]).orElse(null);
                 if (itemBehavior == null) {
                     sender.sendMessage("§cBehavior not found");
                     return true;
                 }
                 itemBehavior.apply(player.getInventory().getItemInMainHand());
-                player.sendMessage(fr.twizox.superitem.items.behaviors.BehaviorManager.INSTANCE.getBehavior(player.getInventory().getItemInMainHand()).map(ItemBehavior::toString).orElse("§cNo behavior found"));
+                player.sendMessage(behaviorManager.getBehavior(player.getInventory().getItemInMainHand()).map(ItemBehavior::toString).orElse("§cNo behavior found"));
             }
         }
 

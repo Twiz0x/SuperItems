@@ -23,7 +23,7 @@ public class PlantingProperty implements ItemProperty<PlayerInteractEvent> {
         Player player = event.getPlayer();
         Block clickedBlock = event.getClickedBlock();
 
-        if (clickedBlock == null && (clickedBlock.getType() != Material.FARMLAND && clickedBlock.getType() != Material.SOUL_SAND)) return;
+        if (clickedBlock == null || (clickedBlock.getType() != Material.FARMLAND && clickedBlock.getType() != Material.SOUL_SAND)) return;
 
         ItemStack[] inventoryContents = player.getInventory().getContents();
 
@@ -67,4 +67,5 @@ public class PlantingProperty implements ItemProperty<PlayerInteractEvent> {
     public ItemProperty<PlayerInteractEvent> deserialize(ConfigurationSection configurationSection)  {
         return new PlantingProperty(configurationSection.getInt("radius", 1));
     }
+
 }

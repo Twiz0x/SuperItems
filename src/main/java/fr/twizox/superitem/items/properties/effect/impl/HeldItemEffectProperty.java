@@ -29,7 +29,7 @@ public class HeldItemEffectProperty extends AbstractEffectProperty<Event> {
     public void handle(Event event) {
 
         Player player;
-        ItemStack item = null;
+        ItemStack item;
 
         if (event instanceof PlayerItemHeldEvent playerItemHeldEvent) {
             player = (playerItemHeldEvent).getPlayer();
@@ -45,30 +45,28 @@ public class HeldItemEffectProperty extends AbstractEffectProperty<Event> {
         }
 
         if (event instanceof EntityPickupItemEvent entityPickupItemEvent) {
-            if (entityPickupItemEvent.getEntity() instanceof Player) {
-                player = (Player) entityPickupItemEvent.getEntity();
+            if (!(entityPickupItemEvent.getEntity() instanceof Player)) return;
+            player = (Player) entityPickupItemEvent.getEntity();
 
-                int selectedSlot = player.getInventory().getHeldItemSlot();
-                int pickupSlot = player.getInventory().firstEmpty();
+            int selectedSlot = player.getInventory().getHeldItemSlot();
+            int pickupSlot = player.getInventory().firstEmpty();
 
-                if (selectedSlot != pickupSlot) return;
-                item = entityPickupItemEvent.getItem().getItemStack();
-                performAction(player, item);
-                return;
-            }
+            if (selectedSlot != pickupSlot) return;
+            item = entityPickupItemEvent.getItem().getItemStack();
+            performAction(player, item);
+            return;
         }
 
         if (event instanceof InventoryClickEvent inventoryClickEvent) {
-            if (inventoryClickEvent.getWhoClicked() instanceof Player playerWhoClicked) {
-                player = playerWhoClicked;
-                int selectedSlot = player.getInventory().getHeldItemSlot();
+            if (!(inventoryClickEvent.getWhoClicked() instanceof Player playerWhoClicked)) return;
 
-                Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(SuperItems.class), () -> {
-                    ItemStack newItem = playerWhoClicked.getInventory().getItem(selectedSlot);
-                    performAction(player, newItem);
-                }, 1);
-                return;
-            }
+            player = playerWhoClicked;
+            int selectedSlot = player.getInventory().getHeldItemSlot();
+
+            Bukkit.getScheduler().runTaskLater(JavaPlugin.getPlugin(SuperItems.class), () -> {
+                ItemStack newItem = playerWhoClicked.getInventory().getItem(selectedSlot);
+                performAction(player, newItem);
+            }, 1);
         }
 
 
@@ -94,6 +92,7 @@ public class HeldItemEffectProperty extends AbstractEffectProperty<Event> {
     public boolean handleOnlyWhenItemHold() {
         return false;
     }
+
 
     @Override
     public HeldItemEffectProperty deserialize(ConfigurationSection section) {

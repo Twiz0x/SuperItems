@@ -17,10 +17,10 @@ public class HarvestProperty implements ItemProperty<PlayerInteractEvent> {
     public void handle(PlayerInteractEvent event) {
 
         Block block = event.getClickedBlock();
-        if(block == null || !crops.contains(block.getType())) return;
+        if (block == null || !crops.contains(block.getType())) return;
 
         Ageable ageable = (Ageable) block.getBlockData();
-        if(ageable.getAge() != ageable.getMaximumAge()) return;
+        if (ageable.getAge() != ageable.getMaximumAge()) return;
 
         Material type = block.getType();
 
