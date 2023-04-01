@@ -5,22 +5,20 @@ behaviors:
   pioche:
     - excavator1
   une_houe_de_max:
-    - default_harvest
+    - harvest
     - excava_dirt
-    - click_effect
-
-
+    - held_effect
 
 properties:
   excavator1:
-    type: default_excavator
+    type: excavator
     radius: 1
     depth: 0
     materials:
       - STONE
       - DIRT
   excava_dirt:
-    type: default_excavator
+    type: excavator
     radius: 1
     depth: 0
     materials:

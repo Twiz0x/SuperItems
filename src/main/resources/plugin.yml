@@ -1,4 +1,4 @@
-main: fr.twizox.items.SuperItems
+main: fr.twizox.superitem.SuperItems
 name: SuperItems
 version: 1.0
 author: Twiz0x
