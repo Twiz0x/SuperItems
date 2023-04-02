@@ -30,6 +30,6 @@ public class HarvestProperty implements ItemProperty<PlayerInteractEvent> {
 
     @Override
     public ItemProperty<PlayerInteractEvent> deserialize(ConfigurationSection section) {
-        throw new UnsupportedOperationException("Already implemented");
+        throw new UnsupportedOperationException("HarvestProperty is already available");
     }
 }

@@ -16,7 +16,7 @@ public class ItemBehavior {
 
 
     private final String behaviorId;
-    private final List<ItemProperty> itemProperties;
+    private final List<ItemProperty<?>> itemProperties;
 
     public ItemBehavior(String behaviorId) {
         this(behaviorId, new ArrayList<>());
@@ -26,7 +26,7 @@ public class ItemBehavior {
         this(behaviorId, Arrays.asList(itemProperties));
     }
 
-    public ItemBehavior(String behaviorId, List<ItemProperty> itemProperties) {
+    public ItemBehavior(String behaviorId, List<ItemProperty<?>> itemProperties) {
         this.behaviorId = behaviorId;
         this.itemProperties = itemProperties;
     }
@@ -35,11 +35,11 @@ public class ItemBehavior {
         return behaviorId;
     }
 
-    public List<ItemProperty> getProperties() {
+    public List<ItemProperty<?>> getProperties() {
         return itemProperties;
     }
 
-    public void addProperty(ItemProperty itemProperty) {
+    public void addProperty(ItemProperty<?> itemProperty) {
         itemProperties.add(itemProperty);
     }
 

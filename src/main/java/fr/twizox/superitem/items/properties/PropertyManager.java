@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Singleton
 public class PropertyManager {
@@ -42,24 +43,21 @@ public class PropertyManager {
     }
 
     public void registerPropertySection(ConfigurationSection propertySection) {
-        if (propertySection == null)
-            throw new IllegalArgumentException("Property section is null!");
+        Objects.requireNonNull(propertySection, "Property section not found!");
 
         String propertyId = propertySection.getName();
         String basePropertyId = propertySection.getString("type");
-        if (basePropertyId == null)
-            throw new IllegalArgumentException("Base property type of section '" + propertyId + "' not found!");
+        Objects.requireNonNull(basePropertyId, "Base property type of section '" + propertyId + "' not found!");
 
         ItemProperty<?> baseProperty = getProperty(basePropertyId);
-        if (baseProperty == null)
-            throw new IllegalArgumentException("Base property '" + basePropertyId + "' not found!");
+        Objects.requireNonNull(baseProperty, "Base property '" + basePropertyId + "' not found!");
 
         this.register(propertyId, baseProperty.deserialize(propertySection));
     }
 
     public void registerProperties(ConfigurationSection properties) {
-        if (properties == null)
-            throw new IllegalArgumentException("Properties section is null!");
+        Objects.requireNonNull(properties, "Properties section not found!");
+
         properties.getKeys(false).stream()
                 .map(properties::getConfigurationSection)
                 .forEach(this::registerPropertySection);
