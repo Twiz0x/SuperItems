@@ -43,7 +43,7 @@ public class SuperItems extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        getServer().getServicesManager().unregisterAll(this);
     }
 
 

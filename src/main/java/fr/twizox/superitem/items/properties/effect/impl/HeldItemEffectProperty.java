@@ -25,6 +25,10 @@ public class HeldItemEffectProperty extends AbstractEffectProperty<Event> {
         this(potionEffect.getType(), potionEffect.getAmplifier());
     }
 
+    public HeldItemEffectProperty() {
+        this(PotionEffectType.SPEED, 1);
+    }
+
     @Override
     public void handle(Event event) {
 
@@ -69,23 +73,13 @@ public class HeldItemEffectProperty extends AbstractEffectProperty<Event> {
             }, 1);
         }
 
-
     }
 
 
     private void performAction(Player player, ItemStack item) {
         if (player == null) return;
-
-        Bukkit.broadcastMessage("§7Checking for: " + player.getName());
-        if (!checkItem(player, item)) {
-            Bukkit.broadcastMessage("§cPlayer not holding item!");
-            removeEffect(player);
-            return;
-        }
-        Bukkit.broadcastMessage("§4Player holding item! Effect applied" + player.getName());
-
-        applyEffect(player);
-
+        if (!checkItem(player, item)) removeEffect(player);
+        else applyEffect(player);
     }
 
     @Override

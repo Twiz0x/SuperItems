@@ -3,12 +3,10 @@ package fr.twizox.superitem.items.properties;
 import com.google.inject.Singleton;
 import fr.twizox.superitem.items.properties.block.ExcavatorProperty;
 import fr.twizox.superitem.items.properties.effect.impl.ClickEffectProperty;
+import fr.twizox.superitem.items.properties.effect.impl.EatEffectProperty;
 import fr.twizox.superitem.items.properties.effect.impl.HeldItemEffectProperty;
 import fr.twizox.superitem.items.properties.farm.HarvestProperty;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +17,10 @@ public class PropertyManager {
 
     private final Map<String, ItemProperty<?>> properties = new HashMap<>(Map.of(
             "harvest", new HarvestProperty(),
-            "excavator", new ExcavatorProperty(1, 0, List.of(Material.STONE)),
-            "click_effect", new ClickEffectProperty(new PotionEffect(PotionEffectType.SPEED, 200, 1)),
-            "held_effect", new HeldItemEffectProperty(new PotionEffect(PotionEffectType.SPEED, 0, 1))
+            "excavator", new ExcavatorProperty(),
+            "click_effect", new ClickEffectProperty(),
+            "held_effect", new HeldItemEffectProperty(),
+            "eat_effect", new EatEffectProperty()
     ));
 
     public List<String> getPropertiesIds() {
@@ -38,6 +37,7 @@ public class PropertyManager {
 
     public void register(String id, ItemProperty<?> property) {
         if (hasProperty(id)) throw new IllegalArgumentException("Property '" + id + "' already exists!");
+
         properties.put(id, property);
     }
 

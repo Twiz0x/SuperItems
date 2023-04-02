@@ -28,6 +28,10 @@ public class ExcavatorProperty implements ItemProperty<BlockBreakEvent> {
         this.materials = materials;
     }
 
+    public ExcavatorProperty() {
+        this(1, 0, List.of(Material.STONE));
+    }
+
     public int getRadius() {
         return radius;
     }
