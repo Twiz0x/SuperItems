@@ -64,7 +64,7 @@ public class BehaviorManager {
     }
 
     public Optional<ItemBehavior> getBehavior(String behaviorId) {
-        return Optional.ofNullable(behaviors.get(behaviorId));
+        return Optional.ofNullable(behaviors.get(new BehaviorId(behaviorId)));
     }
 
     public Map<BehaviorId, ItemBehavior> getBehaviors() {

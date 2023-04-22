@@ -14,7 +14,6 @@ import java.util.List;
 
 public class ItemBehavior {
 
-
     private final BehaviorId behaviorId;
     private final List<ItemProperty<?>> itemProperties;
 
