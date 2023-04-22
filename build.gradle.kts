@@ -6,8 +6,8 @@ plugins {
 group = "fr.twizox"
 version = "1.0"
 
-java.targetCompatibility = JavaVersion.VERSION_17
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_19
+java.sourceCompatibility = JavaVersion.VERSION_19
 
 repositories {
     mavenCentral()
@@ -21,13 +21,9 @@ dependencies {
 
     compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
 
-    // guice
-    implementation("com.google.inject:guice:5.0.1")
-
 }
 
 tasks.shadowJar {
-    minimize()
 }
 
 tasks.build {

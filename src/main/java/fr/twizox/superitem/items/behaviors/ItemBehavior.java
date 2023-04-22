@@ -15,23 +15,23 @@ import java.util.List;
 public class ItemBehavior {
 
 
-    private final String behaviorId;
+    private final BehaviorId behaviorId;
     private final List<ItemProperty<?>> itemProperties;
 
-    public ItemBehavior(String behaviorId) {
+    public ItemBehavior(BehaviorId behaviorId) {
         this(behaviorId, new ArrayList<>());
     }
 
-    public ItemBehavior(String behaviorId, ItemProperty<?>... itemProperties) {
+    public ItemBehavior(BehaviorId behaviorId, ItemProperty<?>... itemProperties) {
         this(behaviorId, Arrays.asList(itemProperties));
     }
 
-    public ItemBehavior(String behaviorId, List<ItemProperty<?>> itemProperties) {
+    public ItemBehavior(BehaviorId behaviorId, List<ItemProperty<?>> itemProperties) {
         this.behaviorId = behaviorId;
         this.itemProperties = itemProperties;
     }
 
-    public String getBehaviorId() {
+    public BehaviorId getBehaviorId() {
         return behaviorId;
     }
 
@@ -50,7 +50,7 @@ public class ItemBehavior {
         itemMeta.getPersistentDataContainer().set(
                 NamespacedKey.fromString("item_behavior", JavaPlugin.getPlugin(SuperItems.class)),
                 PersistentDataType.STRING,
-                behaviorId);
+                behaviorId.toString());
         item.setItemMeta(itemMeta);
     }
 

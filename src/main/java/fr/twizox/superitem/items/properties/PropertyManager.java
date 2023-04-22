@@ -1,43 +1,41 @@
 package fr.twizox.superitem.items.properties;
 
-import com.google.inject.Singleton;
-import fr.twizox.superitem.items.properties.block.ExcavatorProperty;
-import fr.twizox.superitem.items.properties.effect.impl.ClickEffectProperty;
-import fr.twizox.superitem.items.properties.effect.impl.EatEffectProperty;
-import fr.twizox.superitem.items.properties.effect.impl.HeldItemEffectProperty;
+import fr.twizox.superitem.items.properties.block.ExcavatorPropertyDeserializer;
+import fr.twizox.superitem.items.properties.effect.impl.ClickEffectPropertyDeserializer;
 import fr.twizox.superitem.items.properties.farm.HarvestProperty;
+import fr.twizox.superitem.serialization.Deserializer;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-@Singleton
+
 public class PropertyManager {
 
     private final Map<String, ItemProperty<?>> properties = new HashMap<>(Map.of(
-            "harvest", new HarvestProperty(),
-            "excavator", new ExcavatorProperty(),
-            "click_effect", new ClickEffectProperty(),
-            "held_effect", new HeldItemEffectProperty(),
-            "eat_effect", new EatEffectProperty()
+            "harvest", new HarvestProperty()
+    ));
+    private final Map<String, Deserializer<? extends ItemProperty<?>>> deserializerMap = new HashMap<>(Map.of(
+            "excavator", new ExcavatorPropertyDeserializer(),
+            "click_effect", new ClickEffectPropertyDeserializer(),
+            "held_effect", new ClickEffectPropertyDeserializer(),
+            "eat_effect", new ClickEffectPropertyDeserializer()
     ));
 
     public List<String> getPropertiesIds() {
         return List.copyOf(properties.keySet());
     }
 
-    public ItemProperty<?> getProperty(String id) {
-        return properties.get(id);
+    public Optional<ItemProperty<?>> getProperty(String id) {
+        return Optional.ofNullable(properties.get(id.toLowerCase()));
     }
 
     public boolean hasProperty(String id) {
-        return properties.containsKey(id);
+        return properties.containsKey(id.toLowerCase());
     }
 
     public void register(String id, ItemProperty<?> property) {
-        if (hasProperty(id)) throw new IllegalArgumentException("Property '" + id + "' already exists!");
+        id = id.toLowerCase();
+        if (hasProperty(id)) throw new IllegalArgumentException("Property with name \"" + id + "\" already exists!");
 
         properties.put(id, property);
     }
@@ -46,13 +44,14 @@ public class PropertyManager {
         Objects.requireNonNull(propertySection, "Property section not found!");
 
         String propertyId = propertySection.getName();
-        String basePropertyId = propertySection.getString("type");
-        Objects.requireNonNull(basePropertyId, "Base property type of section '" + propertyId + "' not found!");
+        String type = propertySection.getString("type");
+        Objects.requireNonNull(type, "Base property type of section \"" + propertyId + "\" not found!");
 
-        ItemProperty<?> baseProperty = getProperty(basePropertyId);
-        Objects.requireNonNull(baseProperty, "Base property '" + basePropertyId + "' not found!");
+        Deserializer<? extends ItemProperty<?>> deserializer = deserializerMap.get(type);
+        Objects.requireNonNull(deserializer, "Deserializer for type '" + type + "' not found!");
 
-        this.register(propertyId, baseProperty.deserialize(propertySection));
+        ItemProperty<?> property = deserializer.deserialize(propertySection);
+        this.register(propertyId, property);
     }
 
     public void registerProperties(ConfigurationSection properties) {

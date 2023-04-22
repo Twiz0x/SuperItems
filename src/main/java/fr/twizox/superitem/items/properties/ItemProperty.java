@@ -1,10 +1,8 @@
 package fr.twizox.superitem.items.properties;
 
-import fr.twizox.superitem.serialization.Deserializable;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Event;
 
-public interface ItemProperty<E extends Event> extends Deserializable<ItemProperty<E>, ConfigurationSection> {
+public interface ItemProperty<E extends Event> {
 
     void handle(E event);
 

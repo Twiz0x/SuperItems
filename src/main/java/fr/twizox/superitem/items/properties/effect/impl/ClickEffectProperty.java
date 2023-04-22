@@ -1,7 +1,6 @@
 package fr.twizox.superitem.items.properties.effect.impl;
 
 import fr.twizox.superitem.items.properties.effect.AbstractEffectProperty;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -42,10 +41,4 @@ public class ClickEffectProperty extends AbstractEffectProperty<PlayerInteractEv
         player.setCooldown(item.getType(), cooldown);
     }
 
-    @Override
-    public ClickEffectProperty deserialize(ConfigurationSection section) {
-        boolean consumeItem = section.getBoolean("consume-item", false);
-        int cooldown = section.getInt("cooldown", 0);
-        return new ClickEffectProperty(getPotionEffect(section), consumeItem, cooldown);
-    }
 }

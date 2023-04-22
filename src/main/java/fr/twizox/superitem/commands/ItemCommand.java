@@ -1,9 +1,9 @@
 package fr.twizox.superitem.commands;
 
-import com.google.inject.Inject;
 import fr.twizox.superitem.items.behaviors.BehaviorManager;
 import fr.twizox.superitem.items.behaviors.ItemBehavior;
 import fr.twizox.superitem.items.properties.PropertyManager;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,14 +11,8 @@ import org.bukkit.entity.Player;
 
 public class ItemCommand implements CommandExecutor {
 
-    private final PropertyManager propertyManager;
-    private final BehaviorManager behaviorManager;
-
-    @Inject
-    public ItemCommand(PropertyManager propertyManager, BehaviorManager behaviorManager) {
-        this.propertyManager = propertyManager;
-        this.behaviorManager = behaviorManager;
-    }
+    private final PropertyManager propertyManager = Bukkit.getServer().getServicesManager().load(PropertyManager.class);
+    private final BehaviorManager behaviorManager = Bukkit.getServer().getServicesManager().load(BehaviorManager.class);
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

@@ -3,7 +3,6 @@ package fr.twizox.superitem.items.properties.effect.impl;
 import fr.twizox.superitem.SuperItems;
 import fr.twizox.superitem.items.properties.effect.AbstractEffectProperty;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -85,12 +84,6 @@ public class HeldItemEffectProperty extends AbstractEffectProperty<Event> {
     @Override
     public boolean handleOnlyWhenItemHold() {
         return false;
-    }
-
-
-    @Override
-    public HeldItemEffectProperty deserialize(ConfigurationSection section) {
-        return new HeldItemEffectProperty(getPotionEffect(section));
     }
 
 }

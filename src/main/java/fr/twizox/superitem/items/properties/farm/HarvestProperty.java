@@ -4,7 +4,6 @@ import fr.twizox.superitem.items.properties.ItemProperty;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
@@ -28,8 +27,4 @@ public class HarvestProperty implements ItemProperty<PlayerInteractEvent> {
         block.setType(type);
     }
 
-    @Override
-    public ItemProperty<PlayerInteractEvent> deserialize(ConfigurationSection section) {
-        throw new UnsupportedOperationException("HarvestProperty is already available");
-    }
 }

@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class AbstractEffectProperty<T extends Event> implements ItemProperty<T> {
@@ -27,7 +28,7 @@ public abstract class AbstractEffectProperty<T extends Event> implements ItemPro
 
     protected boolean checkItem(final Player player, final ItemStack itemStack) {
         BehaviorManager behaviorManager = Bukkit.getServicesManager().load(BehaviorManager.class);
-        if (behaviorManager == null) throw new IllegalStateException("BehaviorManager not found");
+        Objects.requireNonNull(behaviorManager, "BehaviorManager is not registered");
 
         Optional<ItemBehavior> behavior = behaviorManager.getBehavior(itemStack);
         return behavior.isPresent() && behavior.get().getProperties().stream().anyMatch(this::equals);
@@ -46,13 +47,11 @@ public abstract class AbstractEffectProperty<T extends Event> implements ItemPro
         return effect.getType().equals(potionEffect.getType()) && effect.getAmplifier() == potionEffect.getAmplifier();
     }
 
-    protected static PotionEffect getPotionEffect(ConfigurationSection section) {
+    public static PotionEffect getPotionEffect(ConfigurationSection section) {
         String typeString = section.getString("type");
-        if (typeString == null)
-            throw new IllegalArgumentException("Missing effect type in section " + section.getName());
+        Objects.requireNonNull(typeString, "Missing effect type in section " + section.getName());
         PotionEffectType type = PotionEffectType.getByName(typeString);
-        if (type == null) throw new IllegalArgumentException("Invalid effect type in section " + section.getName());
-
+        Objects.requireNonNull(type, "Invalid effect type in section " + section.getName());
         return new PotionEffect(
                 type,
                 section.getInt("duration", 200),

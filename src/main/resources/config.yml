@@ -17,6 +17,7 @@ properties:
     materials:
       - STONE
       - DIRT
+
   excava_dirt:
     type: excavator
     radius: 1

@@ -1,6 +1,5 @@
 package fr.twizox.superitem.listeners;
 
-import com.google.inject.Inject;
 import fr.twizox.superitem.items.behaviors.BehaviorManager;
 import fr.twizox.superitem.items.behaviors.ItemBehavior;
 import org.bukkit.Bukkit;
@@ -22,12 +21,7 @@ import java.util.stream.Stream;
 
 public class PlayerListeners implements Listener {
 
-    private final BehaviorManager behaviorManager;
-
-    @Inject
-    public PlayerListeners(BehaviorManager behaviorManager) {
-        this.behaviorManager = behaviorManager;
-    }
+    private final BehaviorManager behaviorManager = Bukkit.getServicesManager().load(BehaviorManager.class);
 
     private void handleItem(Player player, Event event, ItemStack item) {
         if (item == null) return;

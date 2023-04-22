@@ -1,9 +1,9 @@
 package fr.twizox.superitem.initializer;
 
-import com.google.inject.Injector;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public interface Initializer {
 
-    void init(Injector injector);
+    void init(JavaPlugin plugin);
 
 }
