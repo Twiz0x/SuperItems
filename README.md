@@ -1,13 +1,29 @@
 
 
-## SuperItems
+# SuperItems
 
 > A plugin that permits you to add custom behaviors to items.
-> Using a simple configuration file, you can make your own item properties.
+> You can make your own item properties through a simple configuration file.
 
-### Preview
+## Preview
 
 *TODO: Add a preview gif*
+### Example configuration
+```yaml
+behaviors:
+  farm_tool:
+    - my_dirt_excavator # Property specified below
+    - harvest # Default property to replant crops
+  
+properties:
+  my_dirt_excavator:
+      type: excavator # The type of property
+      radius: 1 # The radius of the excavation
+      depth: 0 # The depth of the excavation
+      materials: # The materials to break
+        - DIRT
+        - GRASS_BLOCK
+```
 
 
 ### Properties To-Do

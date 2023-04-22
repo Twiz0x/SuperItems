@@ -6,12 +6,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-/**
- * @author Salers
- * made on fr.twizox.superitem.items.properties.effect.impl
- */
 public class ClickEffectProperty extends AbstractEffectProperty<PlayerInteractEvent> {
 
     private final boolean consumeItem;
@@ -22,11 +17,6 @@ public class ClickEffectProperty extends AbstractEffectProperty<PlayerInteractEv
         super(potionEffect);
         this.consumeItem = consumeItem;
         this.cooldown = cooldown;
-    }
-
-    public ClickEffectProperty() {
-        this(new PotionEffect(PotionEffectType.SPEED, 200, 1),
-                false, 300);
     }
 
     @Override
