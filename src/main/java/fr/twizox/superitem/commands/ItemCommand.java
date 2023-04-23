@@ -34,7 +34,7 @@ public class ItemCommand implements CommandExecutor {
             }
             case "behaviors" -> {
                 sender.sendMessage("§aList of behaviors:");
-                behaviorManager.getBehaviors().forEach((behavior, itemBehavior) -> sender.sendMessage("§e- " + itemBehavior));
+                behaviorManager.getBehaviors().forEach(behavior -> sender.sendMessage("§e- " + behavior));
             }
             case "reload" -> {
                 sender.sendMessage("§aNot implemented yet");

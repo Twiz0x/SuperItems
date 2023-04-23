@@ -38,8 +38,7 @@ public class BehaviorManager {
 
     public void addBehaviors(ConfigurationSection behaviors) {
         Objects.requireNonNull(behaviors, "Behaviors section not found!");
-        behaviors.getKeys(false)
-                .forEach(behaviorId -> addBehavior(behaviorId, behaviors.getStringList(behaviorId)));
+        behaviors.getKeys(false).forEach(id -> addBehavior(id, behaviors.getStringList(id)));
     }
 
     public void removeBehavior(BehaviorId id) {
@@ -60,19 +59,15 @@ public class BehaviorManager {
         if (namespacedKey == null) return Optional.empty();
         String id = itemMeta.getPersistentDataContainer().get(namespacedKey, PersistentDataType.STRING);
         if (id == null) return Optional.empty();
-        return Optional.ofNullable(behaviors.get(new BehaviorId(id)));
+        return getBehavior(id);
     }
 
     public Optional<ItemBehavior> getBehavior(String behaviorId) {
         return Optional.ofNullable(behaviors.get(new BehaviorId(behaviorId)));
     }
 
-    public Map<BehaviorId, ItemBehavior> getBehaviors() {
-        return new HashMap<>(behaviors);
-    }
-
-    public List<BehaviorId> getBehaviorIds() {
-        return new ArrayList<>(behaviors.keySet());
+    public List<ItemBehavior> getBehaviors() {
+        return new ArrayList<>(behaviors.values());
     }
 
 
