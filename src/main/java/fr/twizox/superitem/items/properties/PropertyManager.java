@@ -11,8 +11,8 @@ import java.util.*;
 
 public class PropertyManager {
 
-    private final Map<String, ItemProperty<?>> properties = new HashMap<>(Map.of(
-            "harvest", new HarvestProperty()
+    private final Map<PropertyId, ItemProperty<?>> properties = new HashMap<>(Map.of(
+            new PropertyId("harvest"), new HarvestProperty()
     ));
     private final Map<String, Deserializer<? extends ItemProperty<?>>> deserializerMap = new HashMap<>(Map.of(
             "excavator", new ExcavatorPropertyDeserializer(),
@@ -22,22 +22,23 @@ public class PropertyManager {
     ));
 
     public List<String> getPropertiesIds() {
-        return List.copyOf(properties.keySet());
+        return properties.keySet().stream().map(PropertyId::toString).toList();
     }
 
     public Optional<ItemProperty<?>> getProperty(String id) {
-        return Optional.ofNullable(properties.get(id.toLowerCase()));
+        return Optional.ofNullable(properties.get(new PropertyId(id)));
     }
 
-    public boolean hasProperty(String id) {
-        return properties.containsKey(id.toLowerCase());
+    public boolean hasProperty(PropertyId id) {
+        return properties.containsKey(id);
     }
 
     public void register(String id, ItemProperty<?> property) {
-        id = id.toLowerCase();
-        if (hasProperty(id)) throw new IllegalArgumentException("Property with name \"" + id + "\" already exists!");
+        PropertyId propertyId = new PropertyId(id);
+        if (hasProperty(propertyId))
+            throw new IllegalArgumentException("Property with name \"" + id + "\" already exists!");
 
-        properties.put(id, property);
+        properties.put(propertyId, property);
     }
 
     public void registerPropertySection(ConfigurationSection propertySection) {
@@ -47,8 +48,8 @@ public class PropertyManager {
         String type = propertySection.getString("type");
         Objects.requireNonNull(type, "Base property type of section \"" + propertyId + "\" not found!");
 
-        Deserializer<? extends ItemProperty<?>> deserializer = deserializerMap.get(type);
-        Objects.requireNonNull(deserializer, "Deserializer for type '" + type + "' not found!");
+        Deserializer<? extends ItemProperty<?>> deserializer = deserializerMap.get(type.toLowerCase());
+        Objects.requireNonNull(deserializer, "Deserializer for type \"" + type + "\" not found!");
 
         ItemProperty<?> property = deserializer.deserialize(propertySection);
         this.register(propertyId, property);

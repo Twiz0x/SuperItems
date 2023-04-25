@@ -1,29 +1,11 @@
 package fr.twizox.superitem.items.behaviors;
 
-import java.util.Objects;
+import fr.twizox.superitem.utils.LowerCaseId;
 
-public record BehaviorId(String id) {
+public class BehaviorId extends LowerCaseId {
 
-    public BehaviorId {
-        Objects.requireNonNull(id, "Behavior id cannot be null!");
-        id = id.toLowerCase();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof BehaviorId)
-            return id.equals(((BehaviorId) obj).id);
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return id;
+    public BehaviorId(String id) {
+        super(id);
     }
 
 }
