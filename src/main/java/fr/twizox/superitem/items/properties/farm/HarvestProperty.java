@@ -10,13 +10,18 @@ import java.util.List;
 
 public class HarvestProperty implements ItemProperty<PlayerInteractEvent> {
 
-    private static final List<Material> crops = List.of(Material.CARROTS, Material.POTATOES, Material.WHEAT, Material.BEETROOTS, Material.NETHER_WART);
+    private static final List<Material> CROPS = List.of(
+            Material.CARROTS,
+            Material.POTATOES,
+            Material.WHEAT,
+            Material.BEETROOTS,
+            Material.NETHER_WART);
 
     @Override
     public void handle(PlayerInteractEvent event) {
 
         Block block = event.getClickedBlock();
-        if (block == null || !crops.contains(block.getType())) return;
+        if (block == null || !CROPS.contains(block.getType())) return;
 
         Ageable ageable = (Ageable) block.getBlockData();
         if (ageable.getAge() != ageable.getMaximumAge()) return;
