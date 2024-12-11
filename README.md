@@ -2,8 +2,8 @@
 
 # SuperItems
 
-> A plugin that permits you to add custom behaviors to items.
-> You can make your own item properties through a simple configuration file.
+A Mincraft plugin that permits you to add custom behaviors to items.
+You can make your own item properties through a simple configuration file.
 
 ## Preview
 ### Example configuration
@@ -29,13 +29,3 @@ properties:
 - [x] **Harvest**: Replant crops automatically when breaking them.
 - [ ] **Planting**: Plant crops in a provided radius.
 - [ ] **EatEffect**: Apply a potion effect when eating the item.
-
-> Note: you can also provide your own properties using our [API](https://todo.com)
-> and make a pull request to add it to the plugin.
-
-### Wiki links
-*TODO: Link to the wiki*
-- Commands: [Link](https://todo.com)
-- Permissions: [Link](https://todo.com)
-- Configuration: [Link](https://todo.com)
-- API: [Link](https://todo.com)
