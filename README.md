@@ -1,9 +1,11 @@
-
-
 # SuperItems
 
 A Mincraft plugin that permits you to add custom behaviors to items.
-You can make your own item properties through a simple configuration file.
+Create your own item behaviors through a simple configuration file.
+The code has been designed on top of bukkit events to help developers implement their own item properties as cleanly as possible (api not available yet).
+
+> [!IMPORTANT]
+> Made for Spigot 1.19.4
 
 ## Preview
 ### Example configuration
