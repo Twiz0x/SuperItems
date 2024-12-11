@@ -6,8 +6,6 @@
 > You can make your own item properties through a simple configuration file.
 
 ## Preview
-
-*TODO: Add a preview gif*
 ### Example configuration
 ```yaml
 behaviors:
